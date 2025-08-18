@@ -18,6 +18,20 @@
   </head>
 
   <body>
+    <!-- Simple Navbar -->
+    <nav style="background: #f8f9fa; padding: 10px;">
+      <%= link_to "Home", root_path %> |
+
+      <% if user_signed_in? %>
+        <%= link_to "New Post", new_post_path %> |
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, data: { turbo_confirm: "Are you sure you want to log out?" }, form: { style: "display:inline" } %>
+        <span style="margin-left: 10px;">Logged in as: <%= current_user.email %></span>
+      <% else %>
+        <%= link_to "Login", new_user_session_path %> |
+        <%= link_to "Sign up", new_user_registration_path %>
+      <% end %>
+    </nav>
+
     <%= yield %>
   </body>
 </html>
