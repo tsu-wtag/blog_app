@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
   devise_for :users
   resources :posts do
-    resources :comments, only: [:create, :destroy]
+    resources :comments, only: [:create, :destroy, :show]
   end
   root "posts#index"
 end
