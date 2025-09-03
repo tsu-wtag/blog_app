@@ -1,20 +1,25 @@
 class PostPolicy < ApplicationPolicy
-  def show?
-    true
+  attr_reader :user, :post
+
+  def initialize(user, post)
+    @user = user
+    @post = post
   end
 
-  def create?
-    user.present?
-  end
+  # Everyone can see posts
+  def index?; true; end
+  def show?; true; end
 
-  def update?
-    user.present? && record.user == user
-  end
+  # Only logged-in users can create
+  def create?; user.present?; end
+  def new?; create?; end
 
-  def destroy?
-    user.present? && record.user == user
-  end
+  # Only author can edit/update/delete
+  def edit?; user.present? && post.user == user; end
+  def update?; edit?; end
+  def destroy?; edit?; end
 
+  # Scope
   class Scope < Scope
     def resolve
       scope.all

@@ -1,6 +1,14 @@
 <p>
-  <%= comment.body %>
-  <%= link_to "Delete", [comment.post, comment],
-              method: :delete,
-              data: { confirm: "Are you sure?" } %>
+  <strong>Commenter:</strong> <%= comment.user.email %>
 </p>
+
+<p>
+  <%= comment.body %>
+</p>
+
+
+<% if user_signed_in? && (comment.user == current_user || @post.user == current_user) %>
+  <%= form_with model: [@post, comment], method: :delete do %>
+    <%= submit_tag "Delete", data: { confirm: "Are you sure?" } %>
+  <% end %>
+<% end %>
