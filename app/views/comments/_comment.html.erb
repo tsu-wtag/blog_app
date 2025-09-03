@@ -6,6 +6,9 @@
   <%= comment.body %>
 </p>
 
-<% if comment.user == current_user || comment.post.user == current_user %>
-  <%= link_to "Delete", [comment.post, comment], method: :delete, data: { confirm: "Are you sure?" } %>
+
+<% if user_signed_in? && (comment.user == current_user || @post.user == current_user) %>
+  <%= form_with model: [@post, comment], method: :delete do %>
+    <%= submit_tag "Delete", data: { confirm: "Are you sure?" } %>
+  <% end %>
 <% end %>
