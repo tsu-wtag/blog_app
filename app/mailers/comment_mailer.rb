@@ -1,9 +1,14 @@
 class CommentMailer < ApplicationMailer
-  def notify_post_author(comment_id)
-    @comment = Comment.find(comment_id)
-    @post = @comment.post
-    @user = @post.user
+  default from: "no-reply@example.com"
 
-    mail(to: @user.email, subject: "New comment on your post")
+  def new_comment(comment)
+    @comment = comment
+    @post = comment.post
+    @post_author = @post.user
+
+    mail(
+      to: @post_author.email,
+      subject: "New comment on your post: #{@post.title}"
+    )
   end
 end

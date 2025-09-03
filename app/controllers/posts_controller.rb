@@ -1,15 +1,15 @@
 class PostsController < ApplicationController
-  # Ensure user is signed in for most actions
-  before_action :authenticate_user!, except: [:index, :show]
+  # All users can see posts/comments
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # Pundit hooks
-  after_action :verify_authorized, except: [:index]
+  after_action :verify_authorized, except: [:index, :show]
   after_action :verify_policy_scoped, only: [:index]
 
   # GET /posts
   def index
-    # Use Pundit scope
+    # Everyone can see posts
     @posts = policy_scope(Post)
 
     respond_to do |format|
@@ -20,7 +20,8 @@ class PostsController < ApplicationController
 
   # GET /posts/:id
   def show
-    authorize @post
+    # Everyone can see posts
+    authorize @post, :show?
 
     respond_to do |format|
       format.html
@@ -39,14 +40,10 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
     authorize @post
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: "Post was successfully created." }
-        format.json { render json: @post, status: :created }
-      else
-        format.html { render :new }
-        format.json { render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity }
-      end
+    if @post.save
+      redirect_to @post, notice: "Post was successfully created."
+    else
+      render :new, alert: "Failed to create post."
     end
   end
 
@@ -59,14 +56,10 @@ class PostsController < ApplicationController
   def update
     authorize @post
 
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: "Post was successfully updated." }
-        format.json { render json: @post, status: :ok }
-      else
-        format.html { render :edit }
-        format.json { render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity }
-      end
+    if @post.update(post_params)
+      redirect_to @post, notice: "Post was successfully updated."
+    else
+      render :edit, alert: "Failed to update post."
     end
   end
 
@@ -74,21 +67,15 @@ class PostsController < ApplicationController
   def destroy
     authorize @post
     @post.destroy
-
-    respond_to do |format|
-      format.html { redirect_to posts_path, notice: "Post was successfully deleted." }
-      format.json { head :no_content }
-    end
+    redirect_to posts_path, notice: "Post was successfully deleted."
   end
 
   private
 
-  # Set post for show, edit, update, destroy
   def set_post
     @post = Post.find(params[:id])
   end
 
-  # Strong parameters
   def post_params
     params.require(:post).permit(:title, :body)
   end
