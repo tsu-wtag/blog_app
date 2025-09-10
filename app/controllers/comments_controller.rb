@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, except: [:show] # Require login for all except show
   before_action :set_post
-  before_action :set_comment, only: [:show, :destroy]
+  before_action :set_comment, only: [:show, :destroy, :edit, :update]
 
   def create
     @comment = @post.comments.build(comment_params)
@@ -21,13 +21,33 @@ class CommentsController < ApplicationController
     puts "Current user ID: #{current_user&.id}"
     puts "Comment user ID: #{@comment.user_id}"
     puts "Post user ID: #{@post.user_id}"
-    if @comment.user_id == current_user&.id || @post.user_id == current_user&.id
+    if @comment.user_id == current_user&.id
       @comment.destroy
       redirect_to @post, notice: "Comment deleted."
     else
       redirect_to @post, alert: "You are not allowed to delete this comment."
     end
   end
+
+
+  def edit
+    unless @comment.user_id == current_user&.id
+      redirect_to @post, alert: "You are not allowed to edit this comment."
+    end
+  end
+
+  def update
+    if @comment.user_id == current_user&.id
+      if @comment.update(comment_params)
+        redirect_to @post, notice: "Comment updated."
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      redirect_to @post, alert: "You are not allowed to edit this comment."
+    end
+  end
+
 
   private
 

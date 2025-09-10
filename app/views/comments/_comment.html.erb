@@ -7,8 +7,21 @@
 </p>
 
 
-<% if user_signed_in? && (comment.user == current_user || @post.user == current_user) %>
-  <%= form_with model: [@post, comment], method: :delete do %>
-    <%= submit_tag "Delete", data: { confirm: "Are you sure?" } %>
-  <% end %>
+
+<% if user_signed_in? && comment.user_id == current_user.id %>
+  <div style="display: inline-flex; gap: 8px;">
+    <%= button_to "Edit",
+                  edit_post_comment_path(comment.post, comment),
+                  method: :get,
+                  form: { style: "display:inline" },
+                  class: "btn" %>
+
+    <%= button_to "Delete",
+                  post_comment_path(comment.post, comment),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" },
+                  form: { style: "display:inline" },
+                  class: "btn btn-danger" %>
+  </div>
 <% end %>
+
