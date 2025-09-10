@@ -1,14 +1,9 @@
 class CommentMailer < ApplicationMailer
-  default from: "no-reply@example.com"
-
-  def new_comment(comment)
+    
+  def new_comment_email(comment)
     @comment = comment
     @post = comment.post
     @post_author = @post.user
-
-    mail(
-      to: @post_author.email,
-      subject: "New comment on your post: #{@post.title}"
-    )
+    mail(to: @post_author.email, subject: "New comment on your post")
   end
 end
