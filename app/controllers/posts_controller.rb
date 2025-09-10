@@ -1,11 +1,11 @@
 class PostsController < ApplicationController
   # All users can see posts/comments
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :user_stories]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   # Pundit hooks
-  after_action :verify_authorized, except: [:index, :show]
-  after_action :verify_policy_scoped, only: [:index]
+  after_action :verify_authorized, except: [:index, :show, :user_stories]
+  after_action :verify_policy_scoped, only: [:index, :user_stories]
 
   # GET /posts
   def index
@@ -16,6 +16,17 @@ class PostsController < ApplicationController
       format.html
       format.json { render json: @posts, include: :comments }
     end
+  end
+
+  # GET /stories
+  # Displays all posts created by the current user
+  def user_stories
+    if current_user
+      @posts = policy_scope(Post.where(user: current_user))
+    else
+      @posts = [] # Return an empty array if no user is logged in
+    end
+    render :index # Reuses the existing index view to display the posts
   end
 
   # GET /posts/:id

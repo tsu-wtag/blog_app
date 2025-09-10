@@ -1,32 +1,32 @@
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
+<div class="container mx-auto p-4 md:p-8">
+<div class="max-w-3xl mx-auto">
+<!-- Post Content -->
+<div class="bg-white rounded-xl shadow-md p-6 sm:p-8 mb-8">
+<h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 leading-tight"><%= @post.title %></h1>
+<p class="text-sm text-gray-600 mb-6">
+By <span class="font-semibold"><%= @post.user.email %></span>
 </p>
+<div class="prose max-w-none text-gray-800">
+<%= @post.body.html_safe %>
+</div>
+<hr class="my-6 border-gray-200" />
+<div class="flex items-center justify-between">
+<%= link_to 'Edit Post', edit_post_path(@post), class: "text-indigo-600 hover:text-indigo-800 text-sm font-medium" %>
+<%= link_to 'Back to Posts', posts_path, class: "text-sm text-gray-600 hover:text-gray-800 font-medium" %>
+</div>
+</div>
 
-<p>
-  <strong>Author:</strong>
-  <%= @post.user.email %>
-</p>
+<!-- Comments Section -->
+<div class="bg-white rounded-xl shadow-md p-6 sm:p-8">
+  <h2 class="text-xl font-bold text-gray-900 mb-4">Comments (<%= @post.comments.count %>)</h2>
+  <div class="space-y-4 mb-8" id="comments">
+    <%= render @post.comments.order(created_at: :desc) %>
+  </div>
 
-<p>
-  <strong>Body:</strong>
-  <%= @post.body %>
-</p>
+  <% if user_signed_in? %>
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Add a Comment</h3>
+    <%= render "comments/form", post: @post, comment: @post.comments.build %>
+  <% end %>
+</div>
 
-<hr>
-
-<h3>Comments</h3>
-<%= render @post.comments %>
-
-<h4>Add a Comment</h4>
-<%= form_with(model: [@post, Comment.new], local: true) do |form| %>
-  <p>
-    <%= form.text_area :body, placeholder: "Write your comment here..." %>
-  </p>
-  <p>
-    <%= form.submit "Post Comment" %>
-  </p>
-<% end %>
-
-<%= button_to 'Back to Home', posts_path, method: :get %>
-
+</div>

@@ -1,41 +1,71 @@
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <title><%= content_for(:title) || "Blog App" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+<title>MiniMedium</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
 
-    <%= yield :head %>
+<!-- Tailwind CSS CDN -->
 
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+<script src="https://cdn.tailwindcss.com"></script>
 
-  <body>
-    <!-- Simple Navbar -->
-    <nav style="background: #f8f9fa; padding: 10px;">
-      <%= link_to "Home", root_path %> |
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+body {
+font-family: 'Inter', sans-serif;
+}
+</style>
 
-      <% if user_signed_in? %>
-        <%= link_to "New Post", new_post_path %> |
-        <%= button_to "Logout",
-              destroy_user_session_path,
-              method: :delete,
-              data: { turbo_confirm: "Are you sure you want to log out?" },
-              form: { style: "display:inline" } %>
-        <span style="margin-left: 10px;">Logged in as: <%= current_user.email %></span>
-      <% else %>
-        <%= link_to "Login", new_user_session_path %> |
-        <%= link_to "Sign up", new_user_registration_path %>
-      <% end %>
-    </nav>
+</head>
 
-    <%= yield %>
-  </body>
+<body class="bg-gray-100 flex h-screen">
+<!-- Sidebar -->
+<aside class="flex flex-col w-64 bg-gray-800 text-white shadow-xl transition-all duration-300 fixed top-0 left-0 h-full" id="sidebar">
+<div class="flex-shrink-0 p-4 border-b border-gray-700">
+<h2 class="text-2xl font-bold">MiniMedium</h2>
+</div>
+<nav class="flex-1 p-4 space-y-2">
+<%= link_to "Home", posts_path, class: "sidebar-link w-full text-left flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors duration-200" %>
+<%= link_to "My Stories", user_stories_path, class: "sidebar-link w-full text-left flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors duration-200" %>
+<%= link_to "Profile", profile_path, class: "sidebar-link w-full text-left flex items-center p-3 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors duration-200" %>
+</nav>
+</aside>
+
+<!-- Main Content Area -->
+
+<div class="flex-1 flex flex-col ml-64 overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex-shrink-0 bg-white shadow-md">
+<div class="flex justify-between items-center p-4">
+<div class="flex items-center space-x-4">
+<!-- Title is handled by the sidebar on desktop -->
+<h1 class="text-2xl font-bold text-gray-800 md:hidden">MiniMedium</h1>
+</div>
+<div class="flex items-center space-x-4 text-sm text-gray-600">
+<% if current_user %>
+<span class="text-gray-900 font-semibold">
+Logged in as: <%= current_user.email %>
+</span>
+<%= button_to "Logout", destroy_user_session_path, method: :delete,
+class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200" %>
+<% else %>
+<%= link_to "Login", new_user_session_path, class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200" %>
+<% end %>
+</div>
+</div>
+</header>
+
+<!-- Main Content Section, where your views will be rendered -->
+
+<main class="flex-1 overflow-y-auto p-8">
+<p style="color: green"><%= notice %></p>
+<%= yield %>
+</main>
+
+</div>
+</div>
+
+</body>
 </html>
