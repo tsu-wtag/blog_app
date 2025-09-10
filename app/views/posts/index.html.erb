@@ -1,16 +1,22 @@
-<p style="color: green"><%= notice %></p>
-
-<% content_for :title, "Posts" %>
-
-<h1>Posts</h1>
-
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
+<div class="space-y-8">
+<div class="flex items-center justify-between border-b pb-4">
+<h1 class="text-3xl font-bold text-gray-900">
+<% if params[:action] == 'user_stories' %>
+My Stories
+<% else %>
+All Posts
+<% end %>
+</h1>
+<%= link_to 'New Post', new_post_path, class: 'bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 shadow-lg' %>
 </div>
 
-<%= link_to "New post", new_post_path %>
+<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+<% if @posts.present? %>
+<% @posts.each do |post| %>
+<%= render post %>
+<% end %>
+<% else %>
+<p class="text-gray-500">There are no posts to display yet.</p>
+<% end %>
+</div>
+</div>

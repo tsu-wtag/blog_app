@@ -20,9 +20,6 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    puts "Current user ID: #{current_user&.id}"
-    puts "Comment user ID: #{@comment.user_id}"
-    puts "Post user ID: #{@post.user_id}"
     if @comment.user_id == current_user&.id
       @comment.destroy
       redirect_to @post, notice: "Comment deleted."

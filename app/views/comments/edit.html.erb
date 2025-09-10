@@ -1,12 +1,13 @@
-<% content_for :title, "Editing comment" %>
+<div class="container mx-auto p-4 md:p-8">
+<div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Editing Comment</h1>
 
-<h1>Editing comment</h1>
+<%= render "comments/form", post: @comment.post, comment: @comment %>
 
-<%= render "form", post: @comment.post, comment: @comment %>
+<div class="mt-8 flex justify-between">
+<%= button_to "Show this comment", [@comment.post, @comment], method: :get, class: "px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
+<%= button_to "Back to post", post_path(@comment.post), method: :get, class: "px-4 py-2 text-gray-700 font-semibold border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors duration-200" %>
+</div>
 
-<br>
-
-<div>
-  <%= link_to "Show this comment", [@comment.post, @comment] %> |
-  <%= link_to "Back to comments", post_comments_path(@comment.post) %>
+</div>
 </div>

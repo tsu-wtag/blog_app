@@ -1,23 +1,28 @@
-<%= form_with(model: [post, comment], local: true) do |form| %>
-  <% if comment.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:
-      </h2>
-      <ul>
-        <% comment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <p>
-    <%= form.label :body %><br>
-    <%= form.text_area :body %>
-  </p>
-
-  <p>
-    <%= form.submit %>
-  </p>
+<div class="bg-white rounded-xl shadow-md p-6 sm:p-8">
+<h3 class="text-lg font-semibold text-gray-900 mb-4">Add a Comment</h3>
+<%= form_with(model: [post, comment], local: true, html: { class: "space-y-4" }) do |form| %>
+<% if comment.errors.any? %>
+<div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+<strong class="font-bold">
+<%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:
+</strong>
+<ul class="mt-2 list-disc list-inside">
+<% comment.errors.full_messages.each do |message| %>
+<li><%= message %></li>
 <% end %>
+</ul>
+</div>
+<% end %>
+
+<div>
+  <%= form.label :body, class: "block text-sm font-medium text-gray-700" %>
+  <%= form.text_area :body, placeholder: "Write your comment here...", class: "mt-1 block w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+</div>
+
+<div>
+  <%= form.submit "Post Comment", class: "w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 cursor-pointer" %>
+</div>
+
+<% end %>
+
+</div>

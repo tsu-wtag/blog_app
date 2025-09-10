@@ -7,5 +7,9 @@ Rails.application.routes.draw do
   resources :posts do
     resources :comments, only: [:create, :show, :destroy, :edit, :update]
   end
+
+  get '/profile', to: 'users#show', as: 'profile'
+  get '/stories', to: 'posts#user_stories', as: 'user_stories'
+
   root "posts#index"
 end
