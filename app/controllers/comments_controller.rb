@@ -8,6 +8,8 @@ class CommentsController < ApplicationController
     @comment.user = current_user
 
     if @comment.save
+      CommentMailer.new_comment_email(@comment).deliver_now
+
       redirect_to @post, notice: "Comment added successfully."
     else
       redirect_to @post, alert: "Failed to add comment."

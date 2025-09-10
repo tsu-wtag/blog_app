@@ -1,0 +1,12 @@
+<h1>Hello <%= @post_author.email %>,</h1>
+<p>
+  <%= @comment.user.email %> commented on your post "<%= @post.title %>":
+</p>
+
+<p>
+  "<%= @comment.body %>"
+</p>
+
+<p>
+  <%= link_to "View Post", post_url(@post) %>
+</p>
