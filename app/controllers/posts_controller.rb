@@ -54,7 +54,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to @post, notice: "Post was successfully created."
     else
-      render :new, alert: "Failed to create post."
+      render :new, status: :unprocessable_entity, alert: "Failed to create post."
     end
   end
 
@@ -70,7 +70,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to @post, notice: "Post was successfully updated."
     else
-      render :edit, alert: "Failed to update post."
+      render :edit, status: :unprocessable_entity, alert: "Failed to update post."
     end
   end
 
@@ -88,6 +88,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :image)
   end
 end

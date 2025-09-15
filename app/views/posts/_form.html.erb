@@ -1,36 +1,40 @@
 <div class="bg-white rounded-xl shadow-md p-6 sm:p-8">
-<h2 class="text-2xl font-bold text-gray-900 mb-6">
-<%= @post.new_record? ? "Create New Post" : "Editing Post" %>
-</h2>
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">
+    <%= @post.new_record? ? "Create New Post" : "Editing Post" %>
+  </h2>
 
-<%= form_with(model: @post, local: true, html: { class: "space-y-4" }) do |form| %>
-<% if post.errors.any? %>
-<div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-<strong class="font-bold">
-<%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:
-</strong>
-<ul class="mt-2 list-disc list-inside">
-<% post.errors.full_messages.each do |message| %>
-<li><%= message %></li>
-<% end %>
-</ul>
-</div>
-<% end %>
+  <%= form_with(model: @post, local: true, html: { class: "space-y-4" }) do |form| %>
+    <% if @post.errors.any? %>
+      <div id="error_explanation" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong class="font-bold">
+          <%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:
+        </strong>
+        <ul class="mt-2 list-disc list-inside">
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-<div>
-  <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
-  <%= form.text_field :title, class: "mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-</div>
+    <div>
+      <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :title, class: "mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
 
-<div>
-  <%= form.label :body, class: "block text-sm font-medium text-gray-700" %>
-  <%= form.text_area :body, class: "mt-1 block w-full h-48 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
-</div>
+    <div>
+      <%= form.label :body, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :body, class: "mt-1 block w-full h-48 p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
 
-<div>
-  <%= form.submit @post.new_record? ? "Create Post" : "Update Post", class: "w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 cursor-pointer" %>
-</div>
+    <div>
+      <%= form.label :image, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.file_field :image, class: "mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+    </div>
 
-<% end %>
+    <div>
+      <%= form.submit @post.new_record? ? "Create Post" : "Update Post", class: "w-full sm:w-auto bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-colors duration-200 cursor-pointer" %>
+    </div>
 
-</div>
+  <% end %>
+</div>\
