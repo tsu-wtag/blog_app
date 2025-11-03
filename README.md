@@ -1,6 +1,34 @@
 # README
 MiniMedium is a lightweight blogging platform, built with Ruby. It allows users to create, edit, and share articles effortlessly, featuring a clean interface, user authentication, and rich text editing for an intuitive writing experience.
 
+## 🚀 Getting Started
+
+Follow the steps below to set up and run the project locally.
+
+## Install Dependencies
+```bash
+bundle install
+```
+## Create and Migrate the Database
+```bash
+rails db:create
+rails db:migrate
+```
+## Seed the Database with Dummy Data
+```bash
+rails db:seed
+```
+## Run the Server
+```bash
+rails server
+```
+## Access the Application
+Open your browser and navigate to:
+
+👉 http://localhost:3000
+
+
+
 ## Home Page
 <img width="1920" height="979" alt="image" src="https://github.com/user-attachments/assets/3e3a37b5-cf38-459a-a81b-fe732f78bc01" />
 
